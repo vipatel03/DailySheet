@@ -1,0 +1,119 @@
+﻿
+@{
+    ViewBag.Title = "Amounts";
+    Layout = "~/Views/Shared/_LayoutTheme.cshtml";
+}
+
+@section Styles{
+    <style type="text/css">
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+            display: none !important;
+        }
+    </style>
+}
+<section class="home-section bg-dark-alfa-30 parallax-2" data-background="/Themes/images/pexels-photo-185769.jpeg" id="home">
+    <div class="js-height-full">
+
+        <!-- Hero Content -->
+        <div class="home-content">
+            <div class="home-text">
+
+                <h1 class="hs-line-1 font-alt mb-80 mb-xs-30 mt-70 mt-sm-0">
+                    Amounts Edit Page
+                </h1>
+
+                <div class="hs-line-6">
+                    ADD or EDIT AMOUNTS
+                </div>
+
+            </div>
+        </div>
+        <!-- End Hero Content -->
+        <!-- Scroll Down -->
+        <div class="local-scroll">
+            <a href="" class="scroll-down"><i class="fa fa-angle-down scroll-down-icon"></i></a>
+        </div>
+        <!-- End Scroll Down -->
+
+    </div>
+</section>
+
+<div ng-app="myApp">
+    <div ng-controller="amountsController as amountsVm" ng-cloak>
+        <h2 class="text-center">AMOUNTS EDIT PAGE</h2>
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form ng-submit="amountsVm.addNew()">
+                        <table class="table table-striped table-hover table-bordered col-md-12">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" ng-model="amountsVm.selectedAll" ng-click="amountsVm.checkAll()" /></th>
+                                    <th class="text-center">Transit</th>
+                                    <th class="text-center">Tax</th>
+                                    <th class="text-center">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="amount in amountsVm.amounts">
+                                    <td>
+                                        {{item.selected}}
+                                    </td>
+                                    <td>
+                                        {{amount.transit |currency}}
+                                    </td>
+                                    <td>
+                                        {{amount.tax |currency}}
+                                    </td>
+                                    <td>
+                                        {{amount.total |currency}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="form-group">
+                            <input ng-hide="!amountsVm.table.length" type="button" class="btn btn-danger pull-right" ng-click="amountsVm.remove()" value="Remove">
+                            <input type="submit" class="btn btn-primary addnew pull-right" value="Add New">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+
+        (function () {
+            angular.module("myApp", []);
+        })();
+
+        (function () {
+            angular.module("myApp")
+            .controller('amountsController', AmountsController);
+            AmountsController.$inject = ['$scope', '$http', '$location'];
+
+            function AmountsController($scope, $http, $location) {
+                vm = this;
+                vm.$scope = $scope;
+                vm.$http = $http;
+                vm.$location = $location;
+                vm.amounts = null;
+                render();
+                function render() {
+                    $http.get('/api/Amounts').then(successCallback, errorCallback);
+                }
+                function successCallback(data, status, jqXHR) {
+                    vm.amounts = data.data.items;
+                }
+                function errorCallback(data, status, jqXHR) {
+                    console.log(jqXHR);
+                }
+            }
+        })();
+
+    </script>
+
+}

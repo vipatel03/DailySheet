@@ -1,0 +1,42 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutTheme.cshtml";
+}
+<div ng-app="myApp">
+    <div ng-controller="dailySheetController as dailyVm" ng-cloak>
+        <h1 ng-click="dailyVm.onClick()">{{dailyVm.pageTitle}}</h1>
+        <div class="background self-hosted-video-bg" style="max-width: 100%; height: 100px;" data-imgwidth="">
+            <video muted="" autoplay="" loop="" preload="auto" style="width: 100%; left: 0px;">
+                <source src="~/Themes/images/588709232.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+
+        (function () {
+            angular.module("myApp", []);
+        })();
+
+        (function () {
+            angular.module("myApp")
+            .controller('dailySheetController', DailySheetController);
+            DailySheetController.$inject = ['$scope', '$http', '$location'];
+
+            function DailySheetController($scope) {
+                vm = this;
+                vm.$scope = $scope;
+                vm.pageTitle = "This is the best page ever!";
+                vm.onClick = _onClick;
+                function _onClick() {
+                    console.log("Call yo mama, cuss your done!");
+                    vm.pageTitle = "Sorry, I love yo mama!";
+                }
+            }
+        })();
+
+    </script>
+
+}

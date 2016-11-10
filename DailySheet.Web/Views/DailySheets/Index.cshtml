@@ -1,0 +1,513 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutTheme.cshtml";
+}
+@section Styles{
+    <style type="text/css">
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+            display: none !important;
+        }
+
+        [ng-message].ng-enter, [ng-message].ng-leave {
+            transition: opacity 1s;
+        }
+
+        [ng-message].ng-enter, [ng-message].ng-leave-active {
+            opacity: 0;
+        }
+
+        [ng-message].ng-enter-active, [ng-message].ng-leave {
+            opacity: 1;
+        }
+    </style>
+
+}
+<section class="home-section bg-dark-alfa-30 parallax-2" data-background="/Themes/images/pexels-photo.jpg" id="home">
+    <div class="js-height-full">
+
+        <!-- Hero Content -->
+        <div class="home-content">
+            <div class="home-text">
+
+                <h1 class="hs-line-1 font-alt mb-80 mb-xs-30 mt-70 mt-sm-0">
+                    Daily Sheet
+                </h1>
+
+                <div class="hs-line-6">
+                    Add Daily Logs  &&nbsp;View monthly reports
+                </div>
+
+            </div>
+        </div>
+        <!-- End Hero Content -->
+        <!-- Scroll Down -->
+        <div class="local-scroll">
+            <a href="" class="scroll-down"><i class="fa fa-angle-down scroll-down-icon"></i></a>
+        </div>
+        <!-- End Scroll Down -->
+
+    </div>
+</section>
+
+<div ng-app="myApp">
+    <div ng-controller="dailySheetController as dailyVm" ng-cloak>
+        <md-content layout-padding="">
+            <h1 class="text-center">DAILY SHEET</h1>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="">
+                        <form class="form col-lg-12" name="dailyVm.dailyForm" novalidate>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="control-label" for="roomNumber">Room Number:</label>
+                                        <select class="form-control" name="roomNumber" ng-model="dailyVm.selected.roomNumber" required>
+                                            <option value="" selected disabled>Select Room Number</option>
+                                            <option>101</option>
+                                            <option>102</option>
+                                            <option>103</option>
+                                            <option>104</option>
+                                            <option>105</option>
+                                            <option>106</option>
+                                            <option>107</option>
+                                            <option>108</option>
+                                            <option>109</option>
+                                            <option>110</option>
+                                            <option>111</option>
+                                            <option>112</option>
+                                            <option>114</option>
+                                            <option>115</option>
+                                        </select>
+                                        <div ng-messages="dailyVm.dailyForm.roomNumber.$error"
+                                             ng-show="dailyVm.dailyForm.$submitted || dailyVm.dailyForm.roomNumber.$dirty || (dailyVm.dailyForm.roomNumber.$invalid && dailyVm.dailyForm.roomNumber.$touched)"
+                                             style="color:red" role="alert">
+                                            <div ng-message="required">Room Number is required.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="control-label" for="cardNumber">Card Number:</label>
+                                        <input ng-model="dailyVm.selected.cardNumber"
+                                               type="text" name="cardNumber" class="form-control" required>
+                                        <div ng-messages="dailyVm.dailyForm.cardNumber.$error"
+                                             ng-show="dailyVm.dailyForm.$submitted || dailyVm.dailyForm.cardNumber.$dirty || (dailyVm.dailyForm.cardNumber.$invalid && dailyVm.dailyForm.cardNumber.$touched)"
+                                             style="color:red" role="alert">
+                                            <div ng-message="required">Card Number is required.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="control-label" for="firstName">First Name:</label>
+                                        <input ng-model="dailyVm.selected.firstName"
+                                               type="text" name="firstName" class="form-control" maxlength="30" required>
+                                        <div ng-messages="dailyVm.dailyForm.firstName.$error"
+                                             ng-show="dailyVm.dailyForm.$submitted || dailyVm.dailyForm.firstName.$dirty || (dailyVm.dailyForm.firstName.$invalid && dailyVm.dailyForm.firstName.$touched)"
+                                             style="color:red" role="alert">
+                                            <div ng-message="required">First Name is required.</div>
+                                            <div ng-message="maxlength">The first name has to be less than 30 characters long.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="control-label" for="lastName">Last Name:</label>
+                                        <input ng-model="dailyVm.selected.lastName"
+                                               type="text" name="lastName" class="form-control" maxlength="30" required>
+                                        <div ng-messages="dailyVm.dailyForm.lastName.$error"
+                                             ng-show="dailyVm.dailyForm.$submitted || dailyVm.dailyForm.lastName.$dirty || (dailyVm.dailyForm.lastName.$invalid && dailyVm.dailyForm.lastName.$touched)"
+                                             style="color:red" role="alert">
+                                            <div ng-message="required">Last Name is required.</div>
+                                            <div ng-message="maxlength">The last name has to be less than 30 characters long.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="control-label" for="checkIn">CheckIn:</label>
+                                        <br />
+                                        <md-datepicker ng-change="dailyVm.selectedCheckInDate(dailyVm.selected.checkIn)" ng-model="dailyVm.selected.checkIn" name="checkIn" md-placeholder="CheckIn date" required></md-datepicker>
+                                    </div>
+                                    <div ng-messages="dailyVm.dailyForm.checkIn.$error"
+                                         ng-show="dailyVm.dailyForm.$submitted || dailyVm.dailyForm.checkIn.$dirty || (dailyVm.dailyForm.checkIn.$invalid && dailyVm.dailyForm.checkIn.$touched)"
+                                         style="color:red" role="alert">
+                                        <div ng-message="required">CheckIn date is required.</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="control-label" for="checkOut">CheckOut:</label>
+                                        <br />
+                                        <md-datepicker ng-change="dailyVm.selectedCheckOutDate(dailyVm.selected.checkOut)" ng-model="dailyVm.selected.checkOut" name="checkOut" md-placeholder="CheckOut date"></md-datepicker>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <!--Left empty for purpose. helps with spacing for error validation-->
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="control-label" for="transit">Transit:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">$</span>
+                                            <input ng-model="dailyVm.selected.transit"
+                                                   type="text" name="transit" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="control-label" for="tax">Tax:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">$</span>
+                                            <input ng-model="dailyVm.selected.tax"
+                                                   type="text" name="tax" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="control-label" for="exempt">Exempt:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">$</span>
+                                            <input ng-model="dailyVm.selected.exempt"
+                                                   type="text" name="exempt" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="control-label" for="total">Total:</label>
+                                        <select class="form-control" ng-model="dailyVm.selected.total"
+                                                ng-change="dailyVm.selectedAmount()" name="total"
+                                                data-ng-options="(amount.total | currency) for amount in dailyVm.amounts">
+                                            <option value="" disabled selected>Select Amount</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" style="margin-top:20px">
+                                        <input type="button" class="btn btn-default" ng-click="dailyVm.cancel()" value="Clear">
+                                        <input type="button" ng-hide="dailyVm.updateBtn" class="btn btn-success" ng-click="dailyVm.submit()" value="Submit">
+                                        <input type="button" ng-show="dailyVm.updateBtn" class="btn btn-success" ng-click="dailyVm.update()" value="Update">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                            <div style="float: right; margin-top:50px; margin-bottom:10px"><button ng-hide="dailyVm.showEdit" ng-click="dailyVm.showEditBtn()" class="btn btn-primary btn-sm">EDIT</button></div>
+
+                            <div class="">
+                                <label class="control-label" for="searchDate">Search By Date: </label>
+                                <md-datepicker ng-change="dailyVm.selectedDate(dailyVm.selected.searchDate)" ng-model="dailyVm.selected.searchDate" name="searchDate" md-placeholder="Select Date" required></md-datepicker>
+                            </div>
+                        <table class="table table-striped table-hover table-bordered col-md-12">
+                            <thead>
+                                <tr>
+                                    <th>Room Number</th>
+                                    <th>Card Number</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>CheckIn</th>
+                                    <th>CheckOut</th>
+                                    <th class="text-center">Transit</th>
+                                    <th class="text-center">Tax</th>
+                                    <th class="text-center">Exempt</th>
+                                    <th class="text-center">Total</th>
+                                    <th ng-show="dailyVm.showEdit" class="text-center">Edit/Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in dailyVm.table | orderBy : checkin">
+                                    <td>
+                                        {{item.roomNumber}}
+                                    </td>
+                                    <td>
+                                        {{item.cardNumber}}
+                                    </td>
+                                    <td>
+                                        {{item.firstName}}
+                                    </td>
+                                    <td>
+                                        {{item.lastName}}
+                                    </td>
+                                    <td>
+                                        {{item.checkin | date: 'mediumDate'}}
+                                    </td>
+                                    <td>
+                                        {{item.checkout | date: 'mediumDate'}}
+                                    </td>
+                                    <td class="text-center">
+                                        {{item.transit |currency}}
+                                    </td>
+                                    <td class="text-center">
+                                        {{item.tax |currency}}
+                                    </td>
+                                    <td class="text-center">
+                                        {{item.exempt |currency}}
+                                    </td>
+                                    <td class="text-center">
+                                        {{item.total | currency}}
+                                    </td>
+                                    <td ng-show="dailyVm.showEdit" class="text-center">
+                                        <button ng-click="dailyVm.editSelected(item)" class="btn btn-primary btn-sm fa fa-edit"></button>
+                                        <button ng-click="dailyVm.remove(item)" class="btn btn-danger btn-sm fa fa-trash-o"></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-striped table-hover table-bordered col-md-12">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th class="text-center">Transit</th>
+                                    <th class="text-center">Tax</th>
+                                    <th class="text-center">Exempt</th>
+                                    <th class="text-center">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Total</th>
+                                    <td>[Value] </td>
+                                    <td>[Value]</td>
+                                    <td>[Value] </td>
+                                    <td>[Value]</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Previous Day</th>
+                                    <td>[Value] </td>
+                                    <td>[Value]</td>
+                                    <td>[Value] </td>
+                                    <td>[Value]</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">To Date Total</th>
+                                    <td>[Value]</td>
+                                    <td>[Value]</td>
+                                    <td>[Value] </td>
+                                    <td class="bg-success">[Value]</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </md-content>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        //╭━━━╮╱╱╱╭╮╱╱╱╱╭━━━┳╮╱╱╱╱╱╱╱╭╮
+        //╰╮╭╮┃╱╱╱┃┃╱╱╱╱┃╭━╮┃┃╱╱╱╱╱╱╭╯╰╮
+        //╱┃┃┃┣━━┳┫┃╭╮╱╭┫╰━━┫╰━┳━━┳━┻╮╭╯
+        //╱┃┃┃┃╭╮┣┫┃┃┃╱┃┣━━╮┃╭╮┃┃━┫┃━┫┃
+        //╭╯╰╯┃╭╮┃┃╰┫╰━╯┃╰━╯┃┃┃┃┃━┫┃━┫╰╮
+        //╰━━━┻╯╰┻┻━┻━╮╭┻━━━┻╯╰┻━━┻━━┻━╯
+        //╱╱╱╱╱╱╱╱╱╱╭━╯┃
+        //╱╱╱╱╱╱╱╱╱╱╰━━╯
+
+        (function () {
+            angular.module('myApp', ['ngMaterial', 'ngMessages', 'ngAnimate']);
+        })();
+        (function () {
+            angular.module("myApp")
+            .controller('dailySheetController', DailySheetController);
+            DailySheetController.$inject = ['$scope', '$http', '$location'];
+
+            function DailySheetController($scope, $http, $location) {
+                vm = this;
+                vm.$scope = $scope;
+                vm.$http = $http;
+                vm.$location = $location;
+                vm.dailyForm = null;
+                vm.table = null;
+                vm.amounts = null;
+                vm.selected = {};
+                vm.selectedDate = {};
+                vm.submit = _submit;
+                vm.cancel = _cancel;
+                vm.selectedAmount = _selectedAmount;
+                vm.selectedDate = _selectedDate;
+                vm.selectedCheckInDate = _selectedCheckInDate;
+                vm.selectedCheckOutDate = _selectedCheckOutDate;
+                vm.showEdit = false;
+                vm.showEditBtn = _showEditBtn;
+                vm.remove = _remove;
+                vm.editSelected = _editSelected;
+                vm.updateBtn = false;
+                vm.update = _update;
+
+                render();
+                function render() {
+                   // $http.get('/api/DailySheets').then(successCallback, errorCallback);
+                    $http.get('/api/Amounts').then(amountsSuccess, amountsError);
+                    vm.selected.searchDate = new Date();
+                    vm.selectedDate();
+                }
+                function successCallback(data, status, jqXHR) {
+                    vm.table = data.data.items;
+                }
+                function errorCallback(data, status, jqXHR) {
+                    console.log(jqXHR);
+                }
+                function amountsSuccess(data, status, jqXHR) {
+                    vm.amounts = data.data.items;
+                }
+                function amountsError(data, status, jqXHR) {
+                    console.log(jqXHR);
+                }
+                function _selectedAmount() {
+                    for (var i = 0; i < vm.amounts.length; i++) {
+                        if (vm.amounts[i].total == vm.selected.total.total) {
+                            vm.selected.tax = vm.amounts[i].tax;
+                            vm.selected.transit = vm.amounts[i].transit;
+                            break;
+                        }
+                    }
+                }
+                function _selectedDate(date) {
+                    data = moment(date).utc().format("YYYY-MM-DD");
+                    $http.get('/api/DailySheets/'+ data).then(successDateCallback, errorDateCallback);
+                    console.log(data);
+                }
+                function _selectedCheckInDate(date) {
+                    data = moment(date).utc().format("YYYY-MM-DD");
+                    vm.selected.checkin = data;
+                }
+                function _selectedCheckOutDate(date) {
+                    data = moment(date).utc().format("YYYY-MM-DD");
+                    vm.selected.checkout = data;
+                }
+
+                function successDateCallback(data, status, jqXHR) {
+                    vm.table = data.data.items;
+                    if(vm.table == null){
+                    swal({ title: "ERROR!", text: "No Records found for this date", type: "warning", timer: 2000, showConfirmButton: false });
+                    }
+                    console.log("Success" + data.status + data.statusText);
+                }
+                function errorDateCallback(data, status, jqXHR) {
+                    consele.log("Error: " + data + status + jqXHR);
+                }
+
+                function _submit() {
+                    data = angular.copy(vm.selected);
+                    data.checkIn = moment(data.checkIn).utc().format("YYYY-MM-DD" + "T00:00:00");
+                    if (data.total) {
+                        data.total = data.total.total;
+                    }
+                    if (vm.table != null) {
+                    for (var i = 0; i < vm.table.length; i++) {
+                        if (vm.table[i].checkin == data.checkIn && vm.table[i].roomNumber == data.roomNumber) {
+                            swal({ title: "ERROR!", text: "Please select a different room number", type: "warning", timer: 3000, showConfirmButton: false });
+                            return null;
+                        }
+                    }
+                    }
+                    if (vm.dailyForm.$valid && vm.updateBtn == false) {
+                        $http.post('/api/DailySheets', data).then(postSuccess, postError);
+                    }
+                    else {
+                        swal({ title: "Error!", text: "Please complete all required areas", type: "error", showConfirmButton: true });
+                    }
+                }
+
+                function _update() {
+                    data = angular.copy(vm.selected);
+                    data.checkIn = moment(data.checkIn).utc().format("YYYY-MM-DD" + "T00:00:00");
+                    data.checkOut = moment(data.checkOut).utc().format("YYYY-MM-DD" + "T00:00:00");
+                    if (data.total) {
+                        data.total = data.total.total;
+                    }
+                    if (vm.dailyForm.$valid && vm.selected.id) {
+                        data = vm.selected;
+                        $http.put('/api/DailySheets/'+vm.selected.id, data).then(putSuccess, putError);
+                    }
+                    else {
+                        swal({ title: "Error!", text: "Please complete all required areas", type: "error", showConfirmButton: true });
+                    }
+                }
+
+                function postSuccess(data, status, jqXHR) {
+                    var newRow = angular.copy(vm.selected);
+                    vm.table.push(newRow);
+                    vm.selected = null;
+                    vm.dailyForm.$setPristine();
+                    vm.dailyForm.$setUntouched();
+                    swal({ title: "Success!", text: "Item added successfully!", type: "success", timer: 2000, showConfirmButton: false });
+                }
+
+                function postError(data, status, jqXHR) {
+                    console.log(data.status);
+                }
+
+                function putSuccess(data, status, jqXHR) {
+                  //var newRow = angular.copy(vm.selected);
+                  //vm.table.push(newRow);
+                    vm.selected = null;
+                    vm.dailyForm.$setPristine();
+                    vm.dailyForm.$setUntouched();
+                    swal({ title: "Success!", text: "Item added successfully!", type: "success", timer: 2000, showConfirmButton: false });
+                    vm.updateBtn = false;
+                    vm.showEdit = false;
+                }
+                function putError(data, status, jqXHR) {
+                    console.log(data.status);
+                }
+                function _cancel() {
+                    vm.selected = null;
+                    vm.dailyForm.$setPristine();
+                    vm.dailyForm.$setUntouched();
+                }
+
+                function _showEditBtn() {
+                    vm.showEdit = true;
+                }
+
+                function _remove(slItem) {
+                    data = slItem;
+                    swal({
+                        title: "Are you sure?",
+                        text: "You will not be able to recover this item file!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Yes, delete it!",
+                        cancelButtonText: "No, cancel plx!",
+                        closeOnConfirm: false,
+                        closeOnCancel: true
+                    },
+               function (isConfirm) {
+                   if (isConfirm) {
+                       $http.delete('/api/DailySheets', data).then(delSuccess, delError);
+                   }
+               });
+
+                }
+                function delError(data, status, jqXHR) {
+                    console.log(jqXHR);
+                    swal({ title: "Error!", text: "Unable to Delete Item at this time", type: "error", showConfirmButton: true });
+                }
+                function delSuccess(data, status, jqXHR) {
+                    vm.selected = null;
+                    vm.dailyForm.$setPristine();
+                    vm.dailyForm.$setUntouched();
+                    vm.updateBtn = false;
+                    vm.showEdit = false;
+                    swal({ title: "Success!", text: "Item Deleted successfully!", type: "success", timer: 2000, showConfirmButton: false });
+                }
+                function _editSelected(slItem) {
+                    vm.updateBtn = true;
+                    //vm.dailyForm = null;
+                    vm.dailyForm.$setPristine();
+                    vm.dailyForm.$setUntouched();
+                    vm.selected = slItem;
+                }
+
+            }
+        })();
+
+    </script>
+
+}
